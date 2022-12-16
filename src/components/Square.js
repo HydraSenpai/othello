@@ -2,11 +2,16 @@ import React from "react"
 import "../styles/style.css"
 
 function Square(props) {
-  return (
-    <div className="square">
-        {props.space}
-    </div>
-  );
+
+    const styles = {
+        backgroundColor: props.isTakenBlack ? "black" : props.isTakenWhite ? "white" : ""
+    }
+
+    return (
+        <div className="square" style={styles} onClick={props.onClick}>
+            {props.space}
+        </div>
+    );
 }
 
 export default Square;
