@@ -22,6 +22,12 @@ function Main() {
             )
     })
 
+    React.useEffect(() => {
+        console.log("Flipping function!")
+        setTurn(turn => !turn)
+        //write flipping mechanic in here
+    }, [board])
+
     function createNewBoard(){
         const squares = []
         for(let x=0;x<64;x++){
@@ -34,22 +40,30 @@ function Main() {
         }
         return squares
     }
-
+    
+    //needs fixed since isnt affecting board state as its directly changing board variable not using setBoard
     function placeCounter(id){
-        for(let x=0;x<board.length;x++){
-            if(id === board[x].id){
-                if(!board[x].isTakenBlack && !board[x].isTakenWhite){
+
+        //will have to use map to affect board!
+        //map function expected here
+       
+        //maybe also change board space prop to and x and y coordinate!
+        const tempBoard = [...board]
+        for(let x=0;x<tempBoard.length;x++){
+            if(id === tempBoard[x].id){
+                if(!tempBoard[x].isTakenBlack && !tempBoard[x].isTakenWhite){
                     if(turn){
-                        board[x].isTakenWhite = true;
-                        setTurn(turn => !turn)
+                        tempBoard[x].isTakenWhite = true;
+                        setBoard(tempBoard)
                     } 
                     else { 
-                        board[x].isTakenBlack = true;
-                        setTurn(turn => !turn)
+                        tempBoard[x].isTakenBlack = true;
+                        setBoard(tempBoard)
                     }
                 }
             }
         }
+        
     }
 
     return (
