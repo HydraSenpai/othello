@@ -9,7 +9,7 @@ function Square(props) {
 
     return (
         <div className="square" style={styles} onClick={props.onClick}>
-            {props.space}
+            {props.x} + {props.y}
         </div>
     );
 }
