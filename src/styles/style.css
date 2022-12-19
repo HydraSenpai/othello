@@ -15,7 +15,7 @@ body {
 
 main {
     background-color: #ffd7d7;
-    height: 700px;
+    height: 750px;
     min-width: 700px;
     max-width: 800px;
     border-radius: 10px;
@@ -28,7 +28,8 @@ main {
 
 .title {
     font-size: 3.5em;
-    margin-top: 0;
+    margin: 0 0 0.5em 0;
+    padding: 0;
 }
 
 .board-container {
@@ -43,4 +44,16 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.score h2 {
+    margin: 0;
+    padding: 0;
 }

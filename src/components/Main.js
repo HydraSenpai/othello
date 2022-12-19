@@ -1,6 +1,8 @@
 import React from "react"
 import "../styles/style.css"
 import Square from "./Square"
+import Score from "./Score"
+import Turn from "./Turn"
 import { nanoid } from 'nanoid'
 
 function Main() {
@@ -417,14 +419,29 @@ function Main() {
                 }
             }
         }   
-    }
+    } 
 
+    function calculateScore(){
+        let blackScore = 0
+        let whiteScore = 0
+        for(let x=0;x<board.length;x++){
+            if(board[x].isTakenBlack){
+                blackScore++;
+            } else if (board[x].isTakenWhite){
+                whiteScore++;
+            }
+        }
+        return {black:blackScore, white:whiteScore}
+    }
+    
     return (
         <main>
             <h1 className="title">Othello</h1>
+            <Score score={calculateScore()}/>
             <div className="board-container">
                 {boardElements}
             </div>
+            <Turn currentTurn={turn}/>
         </main>
     );
 }
