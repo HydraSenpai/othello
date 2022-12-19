@@ -72,6 +72,8 @@ function Main() {
     function checkForFlips(){
         checkTop()
         checkBottom()
+        checkLeft()
+        checkRight()
     }
 
     function checkTop(){
@@ -226,6 +228,172 @@ function Main() {
                         setBoard(oldBoard => oldBoard.map(square => {
                             //if square has same x and is between last placed square and found top square then flip
                             return (square.x === currentSquare.x && square.y < tempBoard[x].y && square.y >= min)
+                            ? {...square, isTakenWhite:false, isTakenBlack:true}
+                            : square
+                        }))
+                        //this method changed board which causes turn to change an unwanted extra time, so we change it here to make it switch again back to the right turn
+                        setTurn(turn => !turn)
+                        return;
+                    }
+                    
+                }
+            }
+        }   
+    }
+
+    function checkLeft(){
+        console.log("Checking Left")
+        let tempBoard = [...board];
+        //variable used to keep a check if every square between 2 white/black squares are the opposite colour. If not its set false and they squares don't flip!
+        let spaceBetween = true;
+        //variable used to keep a check if a check was made, ensures the method is not called repeatedly
+        let line = false;
+        let max = 0;
+        console.log("Current square = " + currentSquare.x + ", " + currentSquare.y)
+        if(turn){
+            for(let x=0;x<tempBoard.length;x++){
+                //has found square with same x coordinate and now must check both are same colour
+                if(tempBoard[x].y === currentSquare.y && tempBoard[x].isTakenWhite === true && currentSquare.isTakenWhite === true && tempBoard[x].x < currentSquare.x){
+                    spaceBetween = true;
+                    line = false;
+                    let min = currentSquare.x;
+                    //loops for each space between found square and current square to check for different colour
+                    for(let z=tempBoard[x].x+1;z<currentSquare.x;z++){
+                        //get next square that is one down from top of board
+                        let squareBetween = tempBoard.find(square => square.y === currentSquare.y && square.x === z)
+                        //if these have a different colour from the current square and picked square then can flip
+                        if(!squareBetween.isTakenBlack){
+                            //can't be same colour so the line is broken and won't flip line
+                            console.log("Square has colour "  + squareBetween.isTakenWhite)
+                            console.log("Not a straight line or is broken")
+                            spaceBetween = false;
+                        } else {
+                            line = true;
+                        }
+                    }
+                    //if both squares inbetween are all the correct colour and a check has been made then flip the inbetween squares
+                    if(spaceBetween && line){
+                        setBoard(oldBoard => oldBoard.map(square => {
+                            console.log("min = " + min)
+                            //if square has same x and is between last placed square and found top square then flip
+                            return (square.y === currentSquare.y && square.x > tempBoard[x].x && square.x < min)
+                            ? {...square, isTakenWhite:true, isTakenBlack:false}
+                            : square
+                        }))
+                        //this method changed board which causes turn to change an unwanted extra time, so we change it here to make it switch again back to the right turn
+                        setTurn(turn => !turn)
+                        return;
+                    }
+                    
+                }
+            }
+        } else {
+            for(let x=0;x<tempBoard.length;x++){
+                //has found square with same x coordinate and now must check both are same colour
+                if(tempBoard[x].y === currentSquare.y && tempBoard[x].isTakenBlack === true && currentSquare.isTakenBlack === true && tempBoard[x].x < currentSquare.x){
+                    spaceBetween = true;
+                    line = false;
+                    let min = currentSquare.x;
+                    //loops for each space between found square and current square to check for different colour
+                    for(let z=tempBoard[x].x+1;z<currentSquare.x;z++){
+                        //get next square that is one down from top of board
+                        let squareBetween = tempBoard.find(square => square.y === currentSquare.y && square.x === z)
+                        //if these have a different colour from the current square and picked square then can flip
+                        if(!squareBetween.isTakenWhite){
+                            //can't be same colour so the line is broken and won't flip line
+                            spaceBetween = false;
+                        } else {
+                            line = true;
+                        }
+                    }
+                    //if both squares inbetween are all the correct colour and a check has been made then flip the inbetween squares
+                    if(spaceBetween && line){
+                        setBoard(oldBoard => oldBoard.map(square => {
+                            //if square has same x and is between last placed square and found top square then flip
+                            return (square.y === currentSquare.y && square.x > tempBoard[x].x && square.x < min)
+                            ? {...square, isTakenWhite:false, isTakenBlack:true}
+                            : square
+                        }))
+                        //this method changed board which causes turn to change an unwanted extra time, so we change it here to make it switch again back to the right turn
+                        setTurn(turn => !turn)
+                        return;
+                    }
+                    
+                }
+            }
+        }   
+    }
+
+    function checkRight(){
+        console.log("Checking Right")
+        let tempBoard = [...board];
+        //variable used to keep a check if every square between 2 white/black squares are the opposite colour. If not its set false and they squares don't flip!
+        let spaceBetween = true;
+        //variable used to keep a check if a check was made, ensures the method is not called repeatedly
+        let line = false;
+        let max = 0;
+        console.log("Current square = " + currentSquare.x + ", " + currentSquare.y)
+        if(turn){
+            for(let x=0;x<tempBoard.length;x++){
+                //has found square with same x coordinate and now must check both are same colour
+                if(tempBoard[x].y === currentSquare.y && tempBoard[x].isTakenWhite === true && currentSquare.isTakenWhite === true && tempBoard[x].x > currentSquare.x){
+                    spaceBetween = true;
+                    line = false;
+                    let min = currentSquare.x;
+                    //loops for each space between found square and current square to check for different colour
+                    for(let z=currentSquare.x+1;z<tempBoard[x].x;z++){
+                        //get next square that is one down from top of board
+                        let squareBetween = tempBoard.find(square => square.y === currentSquare.y && square.x === z)
+                        //if these have a different colour from the current square and picked square then can flip
+                        if(!squareBetween.isTakenBlack){
+                            //can't be same colour so the line is broken and won't flip line
+                            console.log("Square has colour "  + squareBetween.isTakenWhite)
+                            console.log("Not a straight line or is broken")
+                            spaceBetween = false;
+                        } else {
+                            line = true;
+                        }
+                    }
+                    //if both squares inbetween are all the correct colour and a check has been made then flip the inbetween squares
+                    if(spaceBetween && line){
+                        setBoard(oldBoard => oldBoard.map(square => {
+                            console.log("min = " + min)
+                            //if square has same x and is between last placed square and found top square then flip
+                            return (square.y === currentSquare.y && square.x <= tempBoard[x].x-1 && square.x > min)
+                            ? {...square, isTakenWhite:true, isTakenBlack:false}
+                            : square
+                        }))
+                        //this method changed board which causes turn to change an unwanted extra time, so we change it here to make it switch again back to the right turn
+                        setTurn(turn => !turn)
+                        return;
+                    }
+                    
+                }
+            }
+        } else {
+            for(let x=0;x<tempBoard.length;x++){
+                //has found square with same x coordinate and now must check both are same colour
+                if(tempBoard[x].y === currentSquare.y && tempBoard[x].isTakenBlack === true && currentSquare.isTakenBlack === true && tempBoard[x].x > currentSquare.x){
+                    spaceBetween = true;
+                    line = false;
+                    let min = currentSquare.x;
+                    //loops for each space between found square and current square to check for different colour
+                    for(let z=currentSquare.x+1;z<tempBoard[x].x;z++){
+                        //get next square that is one down from top of board
+                        let squareBetween = tempBoard.find(square => square.y === currentSquare.y && square.x === z)
+                        //if these have a different colour from the current square and picked square then can flip
+                        if(!squareBetween.isTakenWhite){
+                            //can't be same colour so the line is broken and won't flip line
+                            spaceBetween = false;
+                        } else {
+                            line = true;
+                        }
+                    }
+                    //if both squares inbetween are all the correct colour and a check has been made then flip the inbetween squares
+                    if(spaceBetween && line){
+                        setBoard(oldBoard => oldBoard.map(square => {
+                            //if square has same x and is between last placed square and found top square then flip
+                            return (square.y === currentSquare.y && square.x <= tempBoard[x].x-1 && square.x > min)
                             ? {...square, isTakenWhite:false, isTakenBlack:true}
                             : square
                         }))
