@@ -37,13 +37,33 @@ function Main() {
     function createNewBoard(){
         const squares = []
         for(let x=0;x<64;x++){
-            squares.push({
+            if(x===27 || x===36){
+              squares.push({
+                id: nanoid(),
+                x:x%8,
+                y:Math.floor(x/8),
+                isTakenWhite:true,
+                isTakenBlack:false
+            })  
+            }
+            else if(x===28 || x===35){
+                squares.push({
+                    id: nanoid(),
+                    x:x%8,
+                    y:Math.floor(x/8),
+                    isTakenWhite:false,
+                    isTakenBlack:true
+            }) 
+            } else {
+                squares.push({
                 id: nanoid(),
                 x:x%8,
                 y:Math.floor(x/8),
                 isTakenWhite:false,
                 isTakenBlack:false
             })
+            }
+            
         }
         return squares
     }
