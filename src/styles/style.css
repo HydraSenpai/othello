@@ -5,6 +5,7 @@
 }
 
 body {
+    user-select: none;
     margin: 0;
     background-color: #0B2434;
     padding: 20px;
@@ -56,4 +57,17 @@ main {
 .score h2 {
     margin: 0;
     padding: 0;
+}
+
+.resetButton {
+    border: none;
+    font-size: 1.3em;
+    padding: 0.8em 1.5em;
+    border-radius: 10px;
+    background-color: rgb(29, 159, 29);
+    transition: all 300ms;
+}
+
+.resetButton:hover {
+    background-color: rgb(6, 113, 6);
 }

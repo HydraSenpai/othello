@@ -4,12 +4,14 @@ import Square from "./Square"
 import Score from "./Score"
 import Turn from "./Turn"
 import { nanoid } from 'nanoid'
+import Confetti from 'react-confetti'
 
 function Main() {
 
     const [board, setBoard] = React.useState(createNewBoard())
     const [currentSquare, setCurrentSquare] = React.useState({x:0, y:0, isTakenBlack: false, isTakenWhite: false})
     const [turn, setTurn] = React.useState(true)
+    const [complete, setComplete] = React.useState(false)
 
     console.log("Rendered Board");
     
@@ -31,6 +33,10 @@ function Main() {
         setTurn(turn => !turn)
         console.log("Flipping function!")
         checkForFlips();
+        if(calculateScoreNum() === 64){
+            setComplete(true)
+            console.log("Game Finished!")
+        }
     }, [board])
 
     function createNewBoard(){
@@ -433,15 +439,44 @@ function Main() {
         }
         return {black:blackScore, white:whiteScore}
     }
+
+    function calculateScoreNum(){
+        let score = 0
+        for(let x=0;x<board.length;x++){
+            if(board[x].isTakenBlack || board[x].isTakenWhite){
+                score++;
+            }
+        }
+        return score
+    }
+
+    function calculateWinner(){
+        let {black, white} = calculateScore()
+        if(black > 32){
+            return "Black Wins" 
+        } else if(black < 32){
+            return "White Wins"
+        } else return "Draw"
+    }
+
+    function resetGame(){
+        setComplete(false)
+        setBoard(createNewBoard())
+        setTurn(true)
+    }
     
     return (
         <main>
-            <h1 className="title">Othello</h1>
+            {complete && <Confetti />}
+            
+            <h1 className="title"> Othello </h1>
+            {complete && <h1 className="winner">{calculateWinner()}</h1>}
             <Score score={calculateScore()}/>
-            <div className="board-container">
+            {!complete && <div className="board-container">
                 {boardElements}
-            </div>
-            <Turn currentTurn={turn}/>
+            </div>}
+            {complete && <button onClick={resetGame} className="resetButton">Play Again!</button>}
+            {!complete && <Turn currentTurn={turn}/>}
         </main>
     );
 }
