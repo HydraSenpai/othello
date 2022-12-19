@@ -25,12 +25,9 @@ function Main() {
     })
 
     React.useEffect(() => {
-
         console.log("turn = " + turn)
         setTurn(turn => !turn)
         console.log("Flipping function!")
-        
-        //write flipping mechanic in here
         checkForFlips();
     }, [board])
 
@@ -68,7 +65,6 @@ function Main() {
         return squares
     }
 
-    //needs fixed since isnt affecting board state as its directly changing board variable not using setBoard
     function placeCounter(id){
         const tempBoard = [...board]
         for(let x=0;x<tempBoard.length;x++){
@@ -103,7 +99,6 @@ function Main() {
         let spaceBetween = true;
         //variable used to keep a check if a check was made, ensures the method is not called repeatedly
         let line = false;
-        let max = 0;
         console.log("Current square = " + currentSquare.x + ", " + currentSquare.y)
         if(turn){
             for(let x=0;x<tempBoard.length;x++){
@@ -185,7 +180,6 @@ function Main() {
         let spaceBetween = true;
         //variable used to keep a check if a check was made, ensures the method is not called repeatedly
         let line = false;
-        let max = 0;
         console.log("Current square = " + currentSquare.x + ", " + currentSquare.y)
         if(turn){
             for(let x=0;x<tempBoard.length;x++){
@@ -268,7 +262,6 @@ function Main() {
         let spaceBetween = true;
         //variable used to keep a check if a check was made, ensures the method is not called repeatedly
         let line = false;
-        let max = 0;
         console.log("Current square = " + currentSquare.x + ", " + currentSquare.y)
         if(turn){
             for(let x=0;x<tempBoard.length;x++){
@@ -351,7 +344,6 @@ function Main() {
         let spaceBetween = true;
         //variable used to keep a check if a check was made, ensures the method is not called repeatedly
         let line = false;
-        let max = 0;
         console.log("Current square = " + currentSquare.x + ", " + currentSquare.y)
         if(turn){
             for(let x=0;x<tempBoard.length;x++){
